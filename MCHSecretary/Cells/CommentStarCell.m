@@ -235,7 +235,7 @@
 }
 
 - (void) currentSelectStarIndex:(NSInteger)index{
-    NSInteger selectStar = index;
+//    NSInteger selectStar = index;
 }
 
 

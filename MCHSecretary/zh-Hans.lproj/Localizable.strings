@@ -6,6 +6,10 @@
   Copyright © 2016年 朱进. All rights reserved.
 */
 ButtonSaveText="确定";
+Game="游戏";
+OpenServer="开服";
+Today="今天";
+Tomorrow="明天";
 
 SearchContent="大家都在搜:";
 AppDownNumber="次下载";

@@ -1,34 +1,35 @@
 //
-//  ChoiceCycleAppRequest.m
+//  OpenServerGameRequest.m
 //  MCHSecretary
 //
-//  Created by 朱进 on 16/8/11.
+//  Created by zhujin zhujin on 16/8/26.
 //  Copyright © 2016年 朱进. All rights reserved.
 //
 
-#import "ChoiceCycleAppRequest.h"
+#import "OpenServerGameRequest.h"
+
 #import "BaseNetManager.h"
 #import "StringUtils.h"
-
-#import "ChoiceListItem.h"
-#import "NomalFrame.h"
 #import "AppPacketInfo.h"
 
-#define TopViewHeight 70
+#import "OpenServerItem.h"
+#import "OpenServerFrame.h"
+
 #define checkNull(__X__) (__X__) == [NSNull null] || (__X__) == nil ? @"" : [NSString stringWithFormat:@"%@", (__X__)]
 
-#define cycleappinfourl @"/appinfo.html"
+#define appdetailinfourl @"/openserver.html"
 
-@implementation ChoiceCycleAppRequest
+@implementation OpenServerGameRequest
 
--(void) getCycleAppInfo:(void(^)(NSMutableArray * array))resultBlock failure:(void(^)(NSURLResponse * response, NSError * error, NSDictionary * dic))failureBlock{
+-(void) requestOpenServerGame:(void(^)(NSMutableArray * opserverArray))resultBlock failure:(void(^)(NSURLResponse * response, NSError * error, NSDictionary * dic))failureBlock{
     
-    [[BaseNetManager sharedInstance] get:cycleappinfourl success:^(NSDictionary *dic) {
-//        NSLog(@"[ChoiceCycleAppRequest] resultStr : %@", dic);
+    [[BaseNetManager sharedInstance] get:appdetailinfourl success:^(NSDictionary *dic) {
+        //        NSLog(@"[DetailInfoRequest] resultStr : %@", dic);
         NSString *status = [NSString stringWithFormat:@"%@", [dic objectForKey:@"status"]];
         if([@"1" isEqualToString:status]){
-            NSMutableArray *result = [self dicToArray:dic];
-            resultBlock(result);
+            //            NSMutableArray *result = [self dicToArray:dic];
+            //            AppPacketInfo *appInfo = [self analysisJsonStrToClass:dic];
+            resultBlock([self dicToArray:dic]);
         }else{
             NSString *errorMsg = [NSString stringWithFormat:@"%@", [dic objectForKey:@"return_msg"]];
             if([StringUtils isBlankString:errorMsg]){
@@ -39,7 +40,7 @@
         }
         
     } failure:^(NSURLResponse *response, NSError *error, NSDictionary *dic) {
-//        NSLog(@"[ChoiceCycleAppRequest] error message : %@", dic);
+        //        NSLog(@"[ChoiceCycleAppRequest] error message : %@", dic);
         failureBlock(response, error, dic);
     }];
     
@@ -48,7 +49,7 @@
 -(NSMutableArray *) dicToArray:(NSDictionary *)dic{
     NSString *dataListStr = checkNull([dic objectForKey:@"data"]);
     
-//    NSLog(@"ChoiceCycleAppRequest# packsListStr: %@", dataListStr);
+    //    NSLog(@"ChoiceCycleAppRequest# packsListStr: %@", dataListStr);
     if(![StringUtils isBlankString:dataListStr]){
         NSMutableArray *dataArray = [self getData:[dic objectForKey:@"data"]];
         return dataArray;
@@ -58,26 +59,20 @@
 
 -(NSMutableArray *) getData:(NSArray *)datas{
     if(datas && [datas count] > 0){
-        NSMutableArray *choiceitemArray = [NSMutableArray arrayWithCapacity:datas.count];
+        NSMutableArray *openServerArray = [NSMutableArray arrayWithCapacity:datas.count];
         for (int i = 0; i < [datas count]; i++) {
-            ChoiceListItem *choiceitem = [[ChoiceListItem alloc] init];
+            OpenServerItem *openserveritem = [[OpenServerItem alloc] init];
+            
             NSDictionary *dataDic = [datas objectAtIndex:i];
-            NSString *choiceType = [NSString stringWithFormat:@"%@", [dataDic objectForKey:@"type"]];
-            if([@"0" isEqualToString:choiceType]){
-                [choiceitem setCellType:CellStyle_Cycle];
-            }else if([@"1" isEqualToString:choiceType]){
-                [choiceitem setCellType:CellStyle_Nomal];
-            }else if([@"2" isEqualToString:choiceType]){
-                [choiceitem setCellType:CellStyle_Other];
-            }
-            [choiceitem setTitle:[NSString stringWithFormat:@"%@", [dataDic objectForKey:@"title"]]];
             
-            NSMutableArray *itemArray = [self getItems:[dataDic objectForKey:@"list"]];
-            [choiceitem setAppInfoArray:itemArray];
+            [openserveritem setOpenServerTime:[NSString stringWithFormat:@"%@", [dataDic objectForKey:@"servertime"]]];
             
-            [choiceitemArray addObject:choiceitem];
+            NSMutableArray *itemArray = [self getItems:[dataDic objectForKey:@"gamelist"]];
+            [openserveritem setAppInfoArray:itemArray];
+            
+            [openServerArray addObject:openserveritem];
         }
-        return choiceitemArray;
+        return openServerArray;
     }else{
         return nil;
     }
@@ -89,9 +84,18 @@
         NSMutableArray *frameArray = [NSMutableArray arrayWithCapacity:lists.count];
         for (int i = 0; i < [lists count]; i++){
             NSDictionary *listDic = [lists objectAtIndex:i];
-            NomalFrame *frame = [[NomalFrame alloc] init];
+            OpenServerFrame *frame = [[OpenServerFrame alloc] init];
             AppPacketInfo *packInfo = [AppPacketInfo packWithDict:listDic];
-            [frame setPacketInfo:packInfo];
+            [frame setLeftApp:packInfo];
+            
+            if((i + 1) < lists.count){
+                NSDictionary *nextlistDic = [lists objectAtIndex:i + 1];
+                AppPacketInfo *nextpackInfo = [AppPacketInfo packWithDict:nextlistDic];
+                [frame setRightApp:nextpackInfo];
+            }else{
+                [frame setRightApp:nil];
+            }
+            
             
             [frameArray addObject:frame];
         }
@@ -104,4 +108,6 @@
     
 }
 
+
 @end
+

@@ -24,7 +24,6 @@
     ChoiceTopDelegate
 >
 
-
 @property (strong, nonatomic) NSMutableArray *listItemArray;
 
 @property (weak, nonatomic) IBOutlet TopSearchView *topView;
