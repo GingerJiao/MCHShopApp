@@ -25,10 +25,10 @@
 
 @property (nonatomic, assign) CGRect rightViewFrame;
 
-@property (nonatomic, assign) CGRect rightImageFrame;
-@property (nonatomic, assign) CGRect rightNameFrame;
-@property (nonatomic, assign) CGRect rightServerFrame;
-@property (nonatomic, assign) CGRect rightDiscountFrame;
+//@property (nonatomic, assign) CGRect rightImageFrame;
+//@property (nonatomic, assign) CGRect rightNameFrame;
+//@property (nonatomic, assign) CGRect rightServerFrame;
+//@property (nonatomic, assign) CGRect rightDiscountFrame;
 
 @property (nonatomic, assign) CGRect lineFrame;
 

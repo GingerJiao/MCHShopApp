@@ -12,7 +12,8 @@
 #define mScreenWidth [[UIScreen mainScreen] bounds].size.width
 #define mScreenHeight [[UIScreen mainScreen] bounds].size.height
 
-#define ViewHeight 100
+#define ViewHeight 80
+#define ImageHeight 50
 
 @implementation OpenServerFrame{
     
@@ -24,34 +25,37 @@
     _rightApp = secondApp;
     
     CGFloat viewWeight = mScreenWidth / 2;
+    CGFloat vPadding = (ViewHeight - ImageHeight) / 2;
     
     self.leftViewFrame = CGRectMake(0, 0, viewWeight, ViewHeight);
     
-    self.leftImageFrame = CGRectMake(5, 10, 40, 40);
+    self.leftImageFrame = CGRectMake(5, vPadding, ImageHeight, ImageHeight);
     
-    CGFloat leftnameX = CGRectGetMaxX(self.leftImageFrame) + 3;
-    self.leftNameFrame = CGRectMake(leftnameX, 10, viewWeight - leftnameX, 12);
+    CGFloat leftnameX = CGRectGetMaxX(self.leftImageFrame) + 5;
+    self.leftNameFrame = CGRectMake(leftnameX, vPadding, viewWeight - leftnameX, 12);
     
-    CGFloat leftserverY = CGRectGetMaxY(self.leftNameFrame) + 5;
-    self.leftServerFrame = CGRectMake(leftnameX, leftserverY + 2, 20, 10);
+//    CGFloat leftserverY = CGRectGetMaxY(self.leftNameFrame) + 5;
+    CGFloat leftserverY = CGRectGetMaxY(self.leftImageFrame) - 18;
+    self.leftServerFrame = CGRectMake(leftnameX, leftserverY + 2.5, 20, 10);
     
-    CGFloat leftdiscountX = CGRectGetMaxX(self.leftServerFrame) + 3;
-    self.leftDiscountFrame = CGRectMake(leftdiscountX, leftserverY, 20, 15);
+    CGFloat leftdiscountX = CGRectGetMaxX(self.leftServerFrame) + 10;
+    self.leftDiscountFrame = CGRectMake(leftdiscountX, leftserverY, 40, 15);
     
     
     
     self.rightViewFrame = CGRectMake(viewWeight, 0, viewWeight, ViewHeight);
     
-    self.rightImageFrame = CGRectMake(5, 10, 40, 40);
-    
-    CGFloat rightnameX = CGRectGetMaxX(self.leftImageFrame) + 3;
-    self.rightNameFrame = CGRectMake(rightnameX, 10, viewWeight - rightnameX, 12);
-    
-    CGFloat rightserverY = CGRectGetMaxY(self.leftNameFrame) + 5;
-    self.rightServerFrame = CGRectMake(rightnameX, rightserverY + 2, 20, 10);
-    
-    CGFloat rightdiscountX = CGRectGetMaxX(self.leftServerFrame) + 3;
-    self.rightDiscountFrame = CGRectMake(rightdiscountX, rightserverY, 20, 15);
+//    self.rightImageFrame = CGRectMake(5, vPadding, ImageHeight, ImageHeight);
+//    
+//    CGFloat rightnameX = CGRectGetMaxX(self.rightImageFrame) + 3;
+//    self.rightNameFrame = CGRectMake(rightnameX, vPadding, viewWeight - rightnameX, 12);
+//    
+////    CGFloat rightserverY = CGRectGetMaxY(self.rightNameFrame) + 5;
+//    CGFloat rightserverY = CGRectGetMaxY(self.rightImageFrame) - 18;
+//    self.rightServerFrame = CGRectMake(rightnameX, rightserverY + 2, 20, 10);
+//    
+//    CGFloat rightdiscountX = CGRectGetMaxX(self.rightServerFrame) + 3;
+//    self.rightDiscountFrame = CGRectMake(rightdiscountX, rightserverY, 40, 15);
     
     
     

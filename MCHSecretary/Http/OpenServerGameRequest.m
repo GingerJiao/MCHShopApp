@@ -24,7 +24,7 @@
 -(void) requestOpenServerGame:(void(^)(NSMutableArray * opserverArray))resultBlock failure:(void(^)(NSURLResponse * response, NSError * error, NSDictionary * dic))failureBlock{
     
     [[BaseNetManager sharedInstance] get:appdetailinfourl success:^(NSDictionary *dic) {
-        //        NSLog(@"[DetailInfoRequest] resultStr : %@", dic);
+//        NSLog(@"[DetailInfoRequest] resultStr : %@", dic);
         NSString *status = [NSString stringWithFormat:@"%@", [dic objectForKey:@"status"]];
         if([@"1" isEqualToString:status]){
             //            NSMutableArray *result = [self dicToArray:dic];
@@ -49,7 +49,7 @@
 -(NSMutableArray *) dicToArray:(NSDictionary *)dic{
     NSString *dataListStr = checkNull([dic objectForKey:@"data"]);
     
-    //    NSLog(@"ChoiceCycleAppRequest# packsListStr: %@", dataListStr);
+//        NSLog(@"ChoiceCycleAppRequest# packsListStr: %@", dataListStr);
     if(![StringUtils isBlankString:dataListStr]){
         NSMutableArray *dataArray = [self getData:[dic objectForKey:@"data"]];
         return dataArray;
@@ -86,15 +86,16 @@
             NSDictionary *listDic = [lists objectAtIndex:i];
             OpenServerFrame *frame = [[OpenServerFrame alloc] init];
             AppPacketInfo *packInfo = [AppPacketInfo packWithDict:listDic];
-            [frame setLeftApp:packInfo];
+            AppPacketInfo *nextpackInfo = nil;
+            
+//            [frame setLeftApp:packInfo];
             
             if((i + 1) < lists.count){
                 NSDictionary *nextlistDic = [lists objectAtIndex:i + 1];
-                AppPacketInfo *nextpackInfo = [AppPacketInfo packWithDict:nextlistDic];
-                [frame setRightApp:nextpackInfo];
-            }else{
-                [frame setRightApp:nil];
+                nextpackInfo = [AppPacketInfo packWithDict:nextlistDic];
+//                [frame setRightApp:nextpackInfo];
             }
+            [frame setData:packInfo secondApp:nextpackInfo];
             
             
             [frameArray addObject:frame];

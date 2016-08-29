@@ -130,6 +130,7 @@
     
     OpenServerTableView *secondTable = [[OpenServerTableView alloc] initWithFrame:CGRectMake(kScreenWidth, 0, kScreenWidth, scrollSize.height - 10)];
 //    [second setBackgroundColor:[UIColor blueColor]];
+    [secondTable requestAppInfo];
     [switchScrollView addSubview:secondTable];
     
     [self.view addSubview:switchScrollView];

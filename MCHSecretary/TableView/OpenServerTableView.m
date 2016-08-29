@@ -11,6 +11,9 @@
 #import "MJRefresh.h"
 
 #import "OpenServerItem.h"
+#import "OpenServerFrame.h"
+#import "OpenServerCell.h"
+#import "OpenServerHeaderView.h"
 
 #import "OpenServerGameRequest.h"
 
@@ -21,6 +24,14 @@
 
 #define GetColor(r,g,b,a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
 #define LineColor GetColor(230,230,230,1.0)
+#define SelectDateColor GetColor(18,205,176,1.0)
+#define NomalDateColor GetColor(0,0,0,1.0)
+
+#define GetFont(s) [UIFont systemFontOfSize:s]
+#define DateFont GetFont(15)
+
+#define halfW kScreenWidth / 2
+#define btnW 100
 
 @implementation OpenServerTableView
 
@@ -47,22 +58,32 @@
     UIView *selectView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, SelectDateH)];
     [selectView setBackgroundColor:[UIColor whiteColor]];
     
-    UIButton *btnToday = [[UIButton alloc] initWithFrame:CGRectMake(10, 0, 100, SelectDateH)];
+    CGFloat todayX = halfW - btnW;
+    btnToday = [[UIButton alloc] initWithFrame:CGRectMake(todayX, 0, btnW, SelectDateH)];
     [btnToday setTitle:NSLocalizedString(@"Today", @"") forState:UIControlStateNormal];
-    [btnToday setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    
+    btnToday.titleLabel.font = DateFont;
+    [btnToday setTitleColor:SelectDateColor forState:UIControlStateNormal];
+    [btnToday addTarget:self action:@selector(requestTodayGame:) forControlEvents:UIControlEventTouchUpInside];
     [selectView addSubview:btnToday];
     
-    UIButton *btnTomorrow = [[UIButton alloc] initWithFrame:CGRectMake(110, 0, 100, SelectDateH)];
-    [btnTomorrow setTitle:NSLocalizedString(@"Tomorrow", @"") forState:UIControlStateNormal];
-    [btnTomorrow setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     
+    btnTomorrow = [[UIButton alloc] initWithFrame:CGRectMake(halfW, 0, btnW, SelectDateH)];
+    [btnTomorrow setTitle:NSLocalizedString(@"Tomorrow", @"") forState:UIControlStateNormal];
+    [btnTomorrow setTitleColor:NomalDateColor forState:UIControlStateNormal];
+    btnTomorrow.titleLabel.font = DateFont;
+    [btnTomorrow addTarget:self action:@selector(requestTomorrowGame:) forControlEvents:UIControlEventTouchUpInside];
     [selectView addSubview:btnTomorrow];
+    
     
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, SelectDateH - 1, kScreenWidth, 1)];
     [lineView setBackgroundColor:LineColor];
-    
     [selectView addSubview:lineView];
+    
+    
+    selectLineView = [[UIView alloc] initWithFrame:CGRectMake(todayX, SelectDateH - 2, btnW, 2)];
+    [selectLineView setBackgroundColor:SelectDateColor];
+    [selectView addSubview:selectLineView];
+    
     
     [self addSubview:selectView];
 }
@@ -103,42 +124,31 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     OpenServerItem *listitem = listItemArray[section];
-//    //    NSLog(@"%ld, %ld", (long)section, (long)listitem.itemNumber);
-//    if(listitem.cellType == CellStyle_Cycle){
-//        return 1;
-//    }
-//    return listitem.appInfoArray.count;
-    return listitem.appInfoArray.count;
+    
+    NSInteger rowsCount = listitem.appInfoArray.count;
+    int curCount = (short)rowsCount / 2;
+    int temp = rowsCount % 2;
+    if(temp > 0){
+        curCount += 1;
+    }
+    return curCount;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    ChoiceListItem *listitem = listItemArray[indexPath.section];
-//    if(listitem.cellType == CellStyle_Cycle){
-//        CycleScrollCell *cycleCell = [CycleScrollCell cellWithTableView:tableView];
-//        //        [cycleCell setScrollFrame:listitem.imageURLArray];
-//        [cycleCell setScrollFrame:listitem.appInfoArray];
-//        [cycleCell setScrollViewDelegate:self];
-//        return cycleCell;
-//    }else{
-//        NomalCell *appcell = [NomalCell cellWithTableView:tableView];
-//        NomalFrame *frame = listitem.appInfoArray[indexPath.row];
-//        [appcell setNomalFrame:frame section:indexPath.section pos:indexPath.row];
-//        appcell.delegate = self;
-//        
-//        return appcell;
-//    }
-    return nil;
+    OpenServerItem *openserveritem = listItemArray[indexPath.section];
+    OpenServerFrame *frame = openserveritem.appInfoArray[indexPath.row];
+    
+    OpenServerCell *cell = [OpenServerCell cellWithTableView:tableView];
+    [cell setOpenServerFrame:frame];
+    
+    return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    ChoiceListItem *listitem = listItemArray[indexPath.section];
-//    if(listitem.cellType == CellStyle_Cycle){
-//        return TopViewHeight;
-//    }else{
-//        NomalFrame *frame = listitem.appInfoArray[indexPath.row];
-//        return frame.cellHeight;
-//    }
-    return 0;
+    OpenServerItem *openserveritem = listItemArray[indexPath.section];
+    OpenServerFrame *frame = openserveritem.appInfoArray[indexPath.row];
+//    NSLog(@"cellHeight:%f", frame.cellHeight);
+    return frame.cellHeight;
 }
 
 -(CGFloat)tableView:(UITableView *) tableView heightForHeaderInSection:(NSInteger)section{
@@ -152,18 +162,46 @@
     //        return 0.1;
     //    }
     
-    return 0.1;
+    return 10;
 }
 
--(CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 1;
+-(UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    return nil;
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    OpenServerItem *openserveritem = listItemArray[section];
+    OpenServerHeaderView *header = [OpenServerHeaderView headerWithTableView:tableView];
+    
+    [header setTitleContent:openserveritem.openServerTime];
+    return header;
+}
+
+-(void)requestTodayGame:(UIButton *)sender{
+    [btnToday setTitleColor:SelectDateColor forState:UIControlStateNormal];
+    [btnTomorrow setTitleColor:NomalDateColor forState:UIControlStateNormal];
+    [selectLineView setFrame:CGRectMake(halfW - btnW, SelectDateH - 2, btnW, 2)];
+    
+    if(listItemArray == nil || listItemArray.count <= 0){
+        [self requestAppInfo];
+    }
+}
+
+-(void)requestTomorrowGame:(UIButton *)sender{
+    [btnToday setTitleColor:NomalDateColor forState:UIControlStateNormal];
+    [btnTomorrow setTitleColor:SelectDateColor forState:UIControlStateNormal];
+    [selectLineView setFrame:CGRectMake(halfW, SelectDateH - 2, btnW, 2)];
+    
+    if(listItemArray == nil || listItemArray.count <= 0){
+        [self requestAppInfo];
+    }
+}
 
 -(void)requestAppInfo{
     OpenServerGameRequest *gameRequest = [[OpenServerGameRequest alloc] init];
     [gameRequest requestOpenServerGame:^(NSMutableArray *opserverArray) {
         listItemArray = opserverArray;
+//        NSLog(@"count:%lu", (unsigned long)listItemArray.count);
         [openserverTable reloadData];
         [openserverTable.mj_header endRefreshing];
     } failure:^(NSURLResponse *response, NSError *error, NSDictionary *dic) {

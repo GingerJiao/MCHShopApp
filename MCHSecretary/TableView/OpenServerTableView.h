@@ -8,11 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol OpenServerDelegate <NSObject>
+
+-(void) alarmGameOpenserver;
+
+@end
+
 @interface OpenServerTableView : UIView<UITableViewDelegate, UITableViewDataSource>{
     UITableView *openserverTable;
     
+    UIButton *btnToday;
+    UIButton *btnTomorrow;
+    UIView *selectLineView;
 }
 
 @property (strong, nonatomic) NSMutableArray *listItemArray;
+
+-(void)requestAppInfo;
 
 @end

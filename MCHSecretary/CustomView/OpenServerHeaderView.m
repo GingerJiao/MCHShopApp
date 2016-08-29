@@ -1,28 +1,29 @@
 //
-//  TitleHeaderView.m
+//  OpenServerHeaderView.m
 //  MCHSecretary
 //
-//  Created by 朱进 on 16/8/11.
+//  Created by zhujin zhujin on 16/8/29.
 //  Copyright © 2016年 朱进. All rights reserved.
 //
 
-#import "TitleHeaderView.h"
+#import "OpenServerHeaderView.h"
 
-#define BackColor [UIColor colorWithRed:235/255.0 green:235/255.0 blue:235/255.0 alpha:0.6]
+#define BackColor [UIColor colorWithRed:235/255.0 green:235/255.0 blue:235/255.0 alpha:1.0]
 
-@interface TitleHeaderView(){
+@interface OpenServerHeaderView(){
     UILabel *lblTitle;
 }
 
 @end
-@implementation TitleHeaderView
+
+@implementation OpenServerHeaderView
 
 +(instancetype) headerWithTableView:(UITableView *)tableView{
-    NSString *identifier = @"titleheaderview";
+    NSString *identifier = @"openserverheaderview";
     
-    TitleHeaderView * headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:identifier];
+    OpenServerHeaderView * headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:identifier];
     if(!headerView){
-        headerView = [[TitleHeaderView alloc] initWithReuseIdentifier:identifier];
+        headerView = [[OpenServerHeaderView alloc] initWithReuseIdentifier:identifier];
     }
     return headerView;
 }
@@ -32,15 +33,11 @@
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width + 5, 20)];
         [view setBackgroundColor:BackColor];
         
-        UIImageView *ivPoint = [[UIImageView alloc] initWithFrame:CGRectMake(10, 8, 5, 5)];
-        [ivPoint setImage:[UIImage imageNamed:@"signpoint.png"]];
-        [self.contentView addSubview:ivPoint];
-        
         lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, view.bounds.size.width - 20, view.bounds.size.height)];
         [lblTitle setFont:[UIFont systemFontOfSize:12]];
         [lblTitle setTextColor:[UIColor blackColor]];
         [lblTitle setNumberOfLines:1];
-        [lblTitle setTextAlignment:NSTextAlignmentLeft];
+        [lblTitle setTextAlignment:NSTextAlignmentCenter];
         [lblTitle setText:@""];
         
         [view addSubview:lblTitle];
@@ -53,6 +50,7 @@
 -(void) setTitleContent:(NSString *)title{
     [lblTitle setText:title];
 }
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
