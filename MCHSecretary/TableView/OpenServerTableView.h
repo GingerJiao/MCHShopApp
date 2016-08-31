@@ -10,7 +10,7 @@
 
 @protocol OpenServerDelegate <NSObject>
 
--(void) alarmGameOpenserver;
+-(void) startSearchApp;
 
 @end
 
@@ -23,6 +23,8 @@
 }
 
 @property (strong, nonatomic) NSMutableArray *listItemArray;
+
+@property (nonatomic, assign) id<OpenServerDelegate> delegate;
 
 -(void)requestAppInfo;
 

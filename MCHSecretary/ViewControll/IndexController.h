@@ -10,7 +10,7 @@
 #import "AppInfoTableView.h"
 #import "OpenServerTableView.h"
 
-@interface IndexController : UIViewController<UIScrollViewDelegate, AppInfoDelegate>{
+@interface IndexController : UIViewController<UIScrollViewDelegate, AppInfoDelegate, OpenServerDelegate>{
     UIScrollView *switchScrollView;
 }
 

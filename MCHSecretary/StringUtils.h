@@ -24,6 +24,14 @@
  */
 + (CGSize)sizeWithString:(NSString *)str font:(UIFont *)font maxSize:(CGSize)maxSize;
 
+/**
+ * 时间戳转化为字符串
+ **/
 + (NSString *)TimeLongToString:(NSString *)str;
+
+/**
+ * 得到中英文混合字符串长度
+ **/
++ (int)stringByteLength:(NSString*)strtemp;
 
 @end

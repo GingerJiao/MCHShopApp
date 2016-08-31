@@ -53,6 +53,9 @@
 @property (nonatomic, copy) NSString *developCompany;
 //兼容性
 @property (nonatomic, copy) NSString *compatible;
+//折扣
+@property (nonatomic, copy) NSString *appDiscount;
+
 
 
 

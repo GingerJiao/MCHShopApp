@@ -9,9 +9,10 @@
 #import "OpenServerCell.h"
 
 #import "WebImage.h"
+#import "StringUtils.h"
 
 #import "OpenServerFrame.h"
-#import "AppPacketInfo.h"
+#import "OpenServerEntity.h"
 
 #define GetFont(s) [UIFont systemFontOfSize:s]
 #define NameFont GetFont(12)
@@ -93,7 +94,7 @@
         UIButton *leftdiscount = [[UIButton alloc] init];
         [leftdiscount setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         leftdiscount.titleLabel.font = ServerFont;
-        [leftdiscount setBackgroundColor:[UIColor blackColor]];
+        [leftdiscount setBackgroundImage:[UIImage imageNamed:@"discount.png"] forState:UIControlStateNormal];
         [self.leftView addSubview:leftdiscount];
         self.leftDiscountBtn = leftdiscount;
         
@@ -124,7 +125,7 @@
         UIButton *rightdiscount = [[UIButton alloc] init];
         [rightdiscount setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         rightdiscount.titleLabel.font = ServerFont;
-        [rightdiscount setBackgroundColor:[UIColor blackColor]];
+        [rightdiscount setBackgroundImage:[UIImage imageNamed:@"discount.png"] forState:UIControlStateNormal];
         [self.rightView addSubview:rightdiscount];
         self.rightDiscountBtn = rightdiscount;
         
@@ -146,19 +147,32 @@
 }
 
 -(void) setSubViewData{
-    AppPacketInfo *leftApp = self.openServerFrame.leftApp;
+    OpenServerEntity *leftApp = self.openServerFrame.leftApp;
     
     [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:leftApp.smallImageUrl] placeholderImage:nil];
     [self.leftNameText setText:leftApp.packetName];
-    [self.leftServerText setText:@"新服"];
-    [self.leftDiscountBtn setTitle:@"1.2" forState:UIControlStateNormal];
+    [self.leftServerText setText:leftApp.serverDesc];
+    if ([StringUtils isBlankString:leftApp.appDiscount]) {
+        [self.leftDiscountBtn setHidden:YES];
+    }else{
+        NSString *leftdiscountStr = [NSString stringWithFormat:@"%@%@", leftApp.appDiscount, NSLocalizedString(@"AppDiscount", @"")];
+        [self.leftDiscountBtn setTitle:leftdiscountStr forState:UIControlStateNormal];
+    }
     
-    AppPacketInfo *rightApp = self.openServerFrame.rightApp;
+    
+    OpenServerEntity *rightApp = self.openServerFrame.rightApp;
     if(rightApp != nil){
         [self.rightImageView sd_setImageWithURL:[NSURL URLWithString:rightApp.smallImageUrl] placeholderImage:nil];
         [self.rightNameText setText:rightApp.packetName];
-        [self.rightServerText setText:@"新服"];
-        [self.rightDiscountBtn setTitle:@"1.2" forState:UIControlStateNormal];
+        [self.rightServerText setText:rightApp.serverDesc];
+        if ([StringUtils isBlankString:rightApp.appDiscount]) {
+            [self.rightDiscountBtn setHidden:YES];
+        }else{
+            NSString *rightdiscountStr = [NSString stringWithFormat:@"%@%@", rightApp.appDiscount, NSLocalizedString(@"AppDiscount", @"")];
+            [self.rightDiscountBtn setTitle:rightdiscountStr forState:UIControlStateNormal];
+        }
+    }else{
+        [self.rightView  setHidden:YES];
     }
 }
 

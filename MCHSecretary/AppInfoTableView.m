@@ -59,6 +59,13 @@
     // 设置自动切换透明度(在导航栏下面自动隐藏)
     appInfoTable.mj_header.automaticallyChangeAlpha = YES;
     
+//    appInfoTable.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+//        // 模拟延迟加载数据，因此2秒后才调用（真实开发中，可以移除这段gcd代码）
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            // 结束刷新
+//            [appInfoTable.mj_footer endRefreshing];
+//        });
+//    }];
     // 上拉刷新
     appInfoTable.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         // 模拟延迟加载数据，因此2秒后才调用（真实开发中，可以移除这段gcd代码）
@@ -114,45 +121,17 @@
     }
 }
 
--(CGFloat)tableView:(UITableView *) tableView heightForHeaderInSection:(NSInteger)section{
-    //    return 0.01;
-//    ChoiceListItem *listitem = listItemArray[section];
-//    if(listitem.cellType == CellStyle_Nomal){
-//        return FloatingViewHeight;
-//    }else if (listitem.cellType == CellStyle_Other){
-//        return 20;
-//    } else {
-//        return 0.1;
-//    }
-    
-    return 0.1;
-}
-
--(CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 1;
-}
+//-(CGFloat)tableView:(UITableView *) tableView heightForHeaderInSection:(NSInteger)section{
+//    return 0.1;
+//}
+//
+//-(CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+//    return 1;
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //    MJExample *exam = self.examples[indexPath.section];
-    //    UIViewController *vc = [[exam.vcClass alloc] init];
-    //    vc.title = exam.titles[indexPath.row];
-    //    [vc setValue:exam.methods[indexPath.row] forKeyPath:@"method"];
     [_delegate showAppInfo];
 }
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//    ChoiceListItem *listitem = listItemArray[section];
-//    if(listitem.cellType == CellStyle_Cycle){
-//        return nil;
-//    }else if (listitem.cellType == CellStyle_Other){
-//        TitleHeaderView *titleView = [TitleHeaderView headerWithTableView:tableView];
-//        [titleView setTitleContent:listitem.title];
-//        return titleView;
-//    } else {
-//        ChoiceHeadeView *headeView = [ChoiceHeadeView headerWithTableView:choiceTableView];
-//        [headeView setFloatViewDelegate:self];
-//        return headeView;
-//    }
-//}
 
 -(void) requestAppInfo{
     

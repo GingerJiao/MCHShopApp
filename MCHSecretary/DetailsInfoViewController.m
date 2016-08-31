@@ -192,7 +192,7 @@
     }
     
     CGFloat ivScrollY = CGRectGetMaxY(infoView.frame);
-    NSLog(@"%f", ivScrollY);
+//    NSLog(@"%f", ivScrollY);
     descView = [[DetailDescribeView alloc] initWithFrame:CGRectMake(0, ivScrollY, kScreenWidth, 500) appInfo:info];
     [detailScrollView addSubview:descView];
     

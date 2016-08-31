@@ -9,12 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@class AppPacketInfo;
+@class OpenServerEntity;
 
 @interface OpenServerFrame : NSObject
 
-@property (nonatomic, strong) AppPacketInfo *leftApp;
-@property (nonatomic, strong) AppPacketInfo *rightApp;
+@property (nonatomic, strong) OpenServerEntity *leftApp;
+@property (nonatomic, strong) OpenServerEntity *rightApp;
 
 @property (nonatomic, assign) CGRect leftViewFrame;
 
@@ -34,6 +34,6 @@
 
 @property (nonatomic, assign) CGFloat cellHeight;
 
--(void) setData:(AppPacketInfo*)firstApp secondApp:(AppPacketInfo*)secondApp;
+-(void) setData:(OpenServerEntity*)firstApp secondApp:(OpenServerEntity*)secondApp;
 
 @end

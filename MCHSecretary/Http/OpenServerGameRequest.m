@@ -10,7 +10,7 @@
 
 #import "BaseNetManager.h"
 #import "StringUtils.h"
-#import "AppPacketInfo.h"
+#import "OpenServerEntity.h"
 
 #import "OpenServerItem.h"
 #import "OpenServerFrame.h"
@@ -85,28 +85,23 @@
         for (int i = 0; i < [lists count]; i++){
             NSDictionary *listDic = [lists objectAtIndex:i];
             OpenServerFrame *frame = [[OpenServerFrame alloc] init];
-            AppPacketInfo *packInfo = [AppPacketInfo packWithDict:listDic];
-            AppPacketInfo *nextpackInfo = nil;
-            
-//            [frame setLeftApp:packInfo];
+            OpenServerEntity *packInfo = [OpenServerEntity packWithDict:listDic];
+            OpenServerEntity *nextpackInfo = nil;
             
             if((i + 1) < lists.count){
                 NSDictionary *nextlistDic = [lists objectAtIndex:i + 1];
-                nextpackInfo = [AppPacketInfo packWithDict:nextlistDic];
-//                [frame setRightApp:nextpackInfo];
+                nextpackInfo = [OpenServerEntity packWithDict:nextlistDic];
             }
             [frame setData:packInfo secondApp:nextpackInfo];
             
-            
             [frameArray addObject:frame];
+            i += 1;
         }
+        
         return frameArray;
     }else{
         return nil;
     }
-    
-    
-    
 }
 
 

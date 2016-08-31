@@ -8,12 +8,15 @@
 
 #import "AppPacketInfo.h"
 
+#import "StringUtils.h"
+#define checkNull(__X__) (__X__) == [NSNull null] || (__X__) == nil ? @"" : [NSString stringWithFormat:@"%@", (__X__)]
+
 @implementation AppPacketInfo
 
 @synthesize smallImageUrl, packetName, packetSize, appDescribe, appDownloadNum, downloadUrl;
 @synthesize largeImageUrl, describeimageUrl, commentNumber, starAverage, describeImages;
 @synthesize contentDescribe, updateLogs, versionInfo;
-@synthesize updateData, appType, language, developCompany, compatible;
+@synthesize updateData, appType, language, developCompany, compatible, appDiscount;
 
 -(id) init{
     if (self = [super init]) {
@@ -28,6 +31,7 @@
         commentNumber = @"";
         starAverage = 0;
         describeImages = @"";
+        appDiscount = @"";
     }
     return self;
 }
@@ -78,6 +82,13 @@
     language = [NSString stringWithFormat:@"%@", [dict objectForKey:@"language"]];
     developCompany = [NSString stringWithFormat:@"%@", [dict objectForKey:@"developcompany"]];
     compatible = [NSString stringWithFormat:@"%@", [dict objectForKey:@"compatible"]];
+    
+    NSString *resultDiscount = checkNull([dict objectForKey:@"discount"]);
+    if(![StringUtils isBlankString:resultDiscount]){
+        appDiscount = [NSString stringWithFormat:@"%@", resultDiscount];
+    }else{
+        appDiscount = @"";
+    }
 }
 
 -(NSString *)appDownloadNum{

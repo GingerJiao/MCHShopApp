@@ -9,6 +9,7 @@
 #import "IndexController.h"
 
 #import "DetailsInfoViewController.h"
+#import "SearchViewController.h"
 
 
 #define TopViewH 65
@@ -112,25 +113,27 @@
 }
 
 -(void) addScrollView{
-    
-    switchScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, TopViewH, kScreenWidth, kScreenHeight - TopViewH)];
-    switchScrollView.contentSize = CGSizeMake(kScreenWidth * 2, kScreenHeight - TopViewH);
+    CGFloat scrollH = kScreenHeight - TopViewH - 49;
+    switchScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, TopViewH, kScreenWidth, scrollH)];
+    switchScrollView.contentSize = CGSizeMake(kScreenWidth * 2, scrollH);
     switchScrollView.delegate = self;
     switchScrollView.pagingEnabled = YES;
     switchScrollView.bounces = NO;
+    switchScrollView.showsHorizontalScrollIndicator = NO;
     
 //    NSLog(@"Scroll frame%@", NSStringFromCGRect(switchScrollView.frame));
 //    NSLog(@"Scroll W:%f, SW:%f", CGRectGetMaxX(switchScrollView.frame), kScreenWidth);
     CGSize scrollSize =  switchScrollView.frame.size;
-    AppInfoTableView *firstTable = [[AppInfoTableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, scrollSize.height - 10)];
+    AppInfoTableView *firstTable = [[AppInfoTableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, scrollSize.height)];
     firstTable.delegate = self;
     [firstTable requestAppInfo];
     [switchScrollView addSubview:firstTable];
     
     
-    OpenServerTableView *secondTable = [[OpenServerTableView alloc] initWithFrame:CGRectMake(kScreenWidth, 0, kScreenWidth, scrollSize.height - 10)];
+    OpenServerTableView *secondTable = [[OpenServerTableView alloc] initWithFrame:CGRectMake(kScreenWidth, 0, kScreenWidth, scrollSize.height)];
 //    [second setBackgroundColor:[UIColor blueColor]];
     [secondTable requestAppInfo];
+    secondTable.delegate = self;
     [switchScrollView addSubview:secondTable];
     
     [self.view addSubview:switchScrollView];
@@ -159,6 +162,19 @@
     }
     DetailsInfoViewController *detailsView = [mainStoryboard instantiateViewControllerWithIdentifier:@"detailsinfo"];
     [self.navigationController pushViewController:detailsView animated:YES];
+}
+
+#pragma mark - OpenServerDelegate
+
+-(void) startSearchApp{
+    UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.delegate = nil;
+    }
+    SearchViewController *searchView = [mainStoryboard instantiateViewControllerWithIdentifier:@"searchapp"];
+    [searchView searchOpenServerGame];
+    
+    [self.navigationController pushViewController:searchView animated:YES];
 }
 /*
 #pragma mark - Navigation

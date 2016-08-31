@@ -11,7 +11,10 @@
 #import "AppPacketInfo.h"
 #import "NomalFrame.h"
 #import "WebImage.h"
+#import "StringUtils.h"
 
+#define GetFont(s) [UIFont systemFontOfSize:s]
+#define ServerFont GetFont(10)
 #define NameFont [UIFont systemFontOfSize:15]
 #define MiddleFont [UIFont systemFontOfSize:10]
 #define DescribeFont [UIFont systemFontOfSize:12]
@@ -27,6 +30,7 @@
 @property (nonatomic, weak) UILabel * lblName;
 @property (nonatomic, weak) UILabel * lblMiddle;
 @property (nonatomic, weak) UILabel * lblDescribe;
+@property (nonatomic, weak) UIButton * btnDiscount;
 @property (nonatomic, weak) UIButton * btnDownload;
 @property (nonatomic, weak) UIButton * btnDownloadText;
 @property (nonatomic, weak) UIView * lineview;
@@ -83,6 +87,13 @@
         [self.contentView addSubview:middleLabel];
         self.lblMiddle = middleLabel;
         
+        UIButton *discount = [[UIButton alloc] init];
+        [discount setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        discount.titleLabel.font = ServerFont;
+        [discount setBackgroundImage:[UIImage imageNamed:@"discount.png"] forState:UIControlStateNormal];
+        [self.contentView addSubview:discount];
+        self.btnDiscount = discount;
+        
         UILabel *describeLabel = [[UILabel alloc] init];
         describeLabel.font = DescribeFont;
         describeLabel.textColor = DescribeColor;
@@ -94,13 +105,13 @@
         [self.contentView addSubview:btndown];
         self.btnDownload = btndown;
         
-        UIButton *btndowntext = [[UIButton alloc] init];
-        [btndowntext setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-        btndowntext.titleLabel.font = DescribeFont;
-        btndowntext.titleLabel.numberOfLines = 1;
-        btndowntext.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-        [self.contentView addSubview:btndowntext];
-        self.btnDownloadText = btndowntext;
+//        UIButton *btndowntext = [[UIButton alloc] init];
+//        [btndowntext setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+//        btndowntext.titleLabel.font = DescribeFont;
+//        btndowntext.titleLabel.numberOfLines = 1;
+//        btndowntext.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+//        [self.contentView addSubview:btndowntext];
+//        self.btnDownloadText = btndowntext;
         
         UIView *line = [[UIView alloc] init];
         line.backgroundColor = LineColor;
@@ -131,11 +142,19 @@
     
     self.lblDescribe.text = packInfo.appDescribe;
     
-    [self.btnDownload setBackgroundImage:[UIImage imageNamed:@"choice_download"] forState:UIControlStateNormal];
+    [self.btnDownload setBackgroundImage:[UIImage imageNamed:@"appinstall"] forState:UIControlStateNormal];
     self.btnDownload.tag = index;
     [self.btnDownload addTarget:self action:@selector(downloadApp:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.btnDownloadText setTitle:NSLocalizedString(@"AppDownload", @"") forState:UIControlStateNormal];
+    
+    if ([StringUtils isBlankString:packInfo.appDiscount]) {
+        [self.btnDiscount setHidden:YES];
+    }else{
+        NSString *leftdiscountStr = [NSString stringWithFormat:@"%@%@", packInfo.appDiscount, NSLocalizedString(@"AppDiscount", @"")];
+        [self.btnDiscount setTitle:leftdiscountStr forState:UIControlStateNormal];
+    }
+    
 }
 
 -(void) setSubViewFrame{
@@ -143,6 +162,7 @@
     self.lblName.frame = self.nomalFrame.nameFrame;
     self.lblMiddle.frame = self.nomalFrame.middleFrame;
     self.lblDescribe.frame = self.nomalFrame.describeFrame;
+    self.btnDiscount.frame = self.nomalFrame.discountFrame;
     self.btnDownload.frame = self.nomalFrame.downloadFrame;
     self.btnDownloadText.frame = self.nomalFrame.downloadTextFrame;
     self.lineview.frame = self.nomalFrame.lineFrame;
@@ -151,7 +171,9 @@
 -(void) downloadApp:(UIButton *)sender{
 //    NSLog(@"%ld", (long)currentSection);
     NSInteger index = sender.tag;
-    [_delegate startDownloadApp:currentSection index:index];
+    if (_delegate) {
+        [_delegate startDownloadApp:currentSection index:index];
+    }
 }
 
 

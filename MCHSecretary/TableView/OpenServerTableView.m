@@ -74,6 +74,13 @@
     [btnTomorrow addTarget:self action:@selector(requestTomorrowGame:) forControlEvents:UIControlEventTouchUpInside];
     [selectView addSubview:btnTomorrow];
     
+    UIButton *btnSearch = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth - 90, 0, 80, SelectDateH)];
+    [btnSearch setTitle:@"搜开服" forState:UIControlStateNormal];
+    [btnSearch setTitleColor:NomalDateColor forState:UIControlStateNormal];
+    btnSearch.titleLabel.font = DateFont;
+    [btnSearch addTarget:self action:@selector(serachOpenServerApp:) forControlEvents:UIControlEventTouchUpInside];
+    [selectView addSubview:btnSearch];
+    
     
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, SelectDateH - 1, kScreenWidth, 1)];
     [lineView setBackgroundColor:LineColor];
@@ -125,13 +132,13 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     OpenServerItem *listitem = listItemArray[section];
     
-    NSInteger rowsCount = listitem.appInfoArray.count;
-    int curCount = (short)rowsCount / 2;
-    int temp = rowsCount % 2;
-    if(temp > 0){
-        curCount += 1;
-    }
-    return curCount;
+//    NSInteger rowsCount = listitem.appInfoArray.count;
+//    int curCount = (short)rowsCount / 2;
+//    int temp = rowsCount % 2;
+//    if(temp > 0){
+//        curCount += 1;
+//    }
+    return listitem.appInfoArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -195,6 +202,10 @@
     if(listItemArray == nil || listItemArray.count <= 0){
         [self requestAppInfo];
     }
+}
+
+-(void)serachOpenServerApp:(UIButton *)sender{
+    [_delegate startSearchApp];
 }
 
 -(void)requestAppInfo{

@@ -25,6 +25,8 @@
 
 @property (nonatomic, assign) CGRect downloadFrame;
 
+@property (nonatomic, assign) CGRect discountFrame;
+
 @property (nonatomic, assign) CGRect downloadTextFrame;
 
 @property (nonatomic, assign) CGRect lineFrame;

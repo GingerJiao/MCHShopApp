@@ -8,6 +8,10 @@
 
 #import "StringUtils.h"
 
+#define checkNull(__X__) (__X__) == [NSNull null] || (__X__) == nil ? @"" : [NSString stringWithFormat:@"%@", (__X__)]
+
+
+
 @implementation StringUtils
 
 
@@ -15,10 +19,10 @@
     if (string == nil || string == NULL) {
         return YES;
     }
-//    if([[NSNull null] isEqual:(NSNull *)string])
-//    {
-//        return YES;
-//    }
+    if([NSNull null] == (NSNull *)string)
+    {
+        return YES;
+    }
     if ([string isKindOfClass:[NSNull class]]) {
         return YES;
     }
@@ -26,6 +30,17 @@
         return YES;
     }
     return NO;
+}
+
++(Boolean) isCheckNull:(NSString *) string{
+    if((NSNull *)string == [NSNull null] || string == nil){
+        return true;
+    }
+    
+    if([self isBlankString:string]){
+        return true;
+    }
+    return false;
 }
 
 /**
@@ -45,6 +60,9 @@
     return size;
 }
 
+/**
+ *  时间戳转化为字符串
+ **/
 + (NSString *)TimeLongToString:(NSString *)str{
     NSTimeInterval time = [str doubleValue]+28800;//因为时差问题要加8小时 == 28800 sec
     
@@ -58,6 +76,30 @@
     return currentDateStr;
 }
 
+//得到中英文混合字符串长度 方法1
++ (int)stringByteLength:(NSString*)strtemp {
+    return (short)[strtemp lengthOfBytesUsingEncoding:NSUnicodeStringEncoding];
+//    int strlength = 0;
+//    char* p = (char*)[strtemp cStringUsingEncoding:NSUnicodeStringEncoding];//以一定格式转成C字符串
+//    for (int i=0 ; i<[strtemp lengthOfBytesUsingEncoding:NSUnicodeStringEncoding] ;i++) {
+//        if (*p) {//字符串是否存在
+//            p++;
+//            strlength++;
+//        }
+//        else {
+//            p++;
+//        }
+//        
+//    }
+//    return strlength;
+}
 
+
+//得到中英文混合字符串长度 方法2
+- (int)getToInt:(NSString*)strtemp {
+    NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+    NSData* da = [strtemp dataUsingEncoding:enc];
+    return (short)[da length];
+}
 
 @end

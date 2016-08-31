@@ -7,7 +7,7 @@
 //
 
 #import "OpenServerFrame.h"
-#import "AppPacketInfo.h"
+#import "OpenServerEntity.h"
 
 #define mScreenWidth [[UIScreen mainScreen] bounds].size.width
 #define mScreenHeight [[UIScreen mainScreen] bounds].size.height
@@ -20,7 +20,7 @@
     
 }
 
--(void) setData:(AppPacketInfo*)firstApp secondApp:(AppPacketInfo*)secondApp{
+-(void) setData:(OpenServerEntity*)firstApp secondApp:(OpenServerEntity*)secondApp{
     _leftApp = firstApp;
     _rightApp = secondApp;
     

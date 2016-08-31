@@ -1,15 +1,15 @@
 //
-//  SearchViewController.h
+//  InstallAppViewController.h
 //  MCHSecretary
 //
-//  Created by 朱进 on 16/8/12.
+//  Created by zhujin zhujin on 16/8/30.
 //  Copyright © 2016年 朱进. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "NomalCell.h"
 
-@interface SearchViewController : UIViewController
+@interface InstallAppViewController : UIViewController
 <
 UITextFieldDelegate,
 UITableViewDelegate,
@@ -19,6 +19,5 @@ DownloadAppDelegate
 
 @property (strong, nonatomic) NSMutableArray *listItemArray;
 
--(void) searchOpenServerGame;
 
 @end
