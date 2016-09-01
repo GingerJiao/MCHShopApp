@@ -108,6 +108,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8fj-70-KPF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+<<<<<<< HEAD
             <point key="canvasLocation" x="-650" y="-358"/>
         </scene>
         <!--帮助-->
@@ -128,6 +129,9 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ttB-l7-3Sm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1379" y="-198"/>
+=======
+            <point key="canvasLocation" x="-650" y="-391"/>
+>>>>>>> origin/master
         </scene>
         <!--搜索-->
         <scene sceneID="5ug-5C-hOR">
@@ -282,7 +286,10 @@
                         <segue destination="zBJ-ph-xTJ" kind="relationship" relationship="viewControllers" id="tWl-lV-aRm"/>
                         <segue destination="qN2-vh-4KH" kind="relationship" relationship="viewControllers" id="rDN-gJ-GmC"/>
                         <segue destination="gG9-5d-zHh" kind="relationship" relationship="viewControllers" id="Q12-KH-sa8"/>
+<<<<<<< HEAD
                         <segue destination="zkm-GZ-Imm" kind="relationship" relationship="viewControllers" id="M6A-bZ-YNY"/>
+=======
+>>>>>>> origin/master
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wB2-bc-Mh0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -299,7 +306,10 @@
         <image name="choice_search.png" width="50" height="50"/>
         <image name="tabbtn_app_select.png" width="50" height="50"/>
         <image name="tabbtn_app_unselect.png" width="50" height="50"/>
+<<<<<<< HEAD
         <image name="tabbtn_help_unselect.png" width="22" height="34"/>
+=======
+>>>>>>> origin/master
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="gyY-QJ-FrH"/>
