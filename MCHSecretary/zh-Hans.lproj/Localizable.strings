@@ -6,8 +6,19 @@
   Copyright © 2016年 朱进. All rights reserved.
 */
 ButtonSaveText="确定";
+Game="游戏";
+OpenServer="开服";
+Today="今天";
+Tomorrow="明天";
+SearchTipText="请输入关键字";
+AppDiscount="折";
+SearchRecommentTitle="大家都在搜";
+SearchHistoary="我的搜索记录";
+SearchResult="啥都没找到，换个词试试呗!";
+InstallTitle="我的";
+ClearSearchHis="清除";
 
-SearchContent="大家都在搜:";
+SearchContent="大家都在搜";
 AppDownNumber="次下载";
 AppDownload="下载";
 AppDetailDownload="立即下载";

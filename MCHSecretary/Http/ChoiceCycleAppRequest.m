@@ -90,16 +90,6 @@
         for (int i = 0; i < [lists count]; i++){
             NSDictionary *listDic = [lists objectAtIndex:i];
             NomalFrame *frame = [[NomalFrame alloc] init];
-//            AppPacketInfo *packInfo = [[AppPacketInfo alloc] init];
-//            [packInfo setLargeImageUrl:[NSString stringWithFormat:@"%@", [listDic objectForKey:@"largriconurl"]]];
-//            [packInfo setSmallImageUrl:[NSString stringWithFormat:@"%@", [listDic objectForKey:@"smalliconurl"]]];
-//            [packInfo setPacketName:[NSString stringWithFormat:@"%@", [listDic objectForKey:@"name"]]];
-//            [packInfo setAppDownloadNum:[NSString stringWithFormat:@"%@", [listDic objectForKey:@"downloadnum"]]];
-//            [packInfo setPacketSize:[NSString stringWithFormat:@"%@", [listDic objectForKey:@"packetsize"]]];
-//            [packInfo setAppDescribe:[NSString stringWithFormat:@"%@", [listDic objectForKey:@"describe"]]];
-//            [packInfo setDownloadUrl:[NSString stringWithFormat:@"%@", [listDic objectForKey:@"downloadurl"]]];
-//            [packInfo setDescribeimageUrl:[NSString stringWithFormat:@"%@", [listDic objectForKey:@"describeurl"]]];
-            
             AppPacketInfo *packInfo = [AppPacketInfo packWithDict:listDic];
             [frame setPacketInfo:packInfo];
             

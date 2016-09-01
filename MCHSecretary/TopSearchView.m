@@ -22,6 +22,16 @@
 
 @implementation TopSearchView
 
+-(id) initWithFrame:(CGRect)frame{
+    if(self = [super initWithFrame:frame]){
+        self.backgroundColor = [UIColor whiteColor];
+        searchText = @"";
+        
+        [self initSubView];
+    }
+    return self;
+}
+
 -(id) initWithCoder:(NSCoder *)aDecoder{
     if(self = [super initWithCoder:aDecoder]){
         self.backgroundColor = [UIColor whiteColor];

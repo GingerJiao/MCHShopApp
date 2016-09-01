@@ -9,6 +9,8 @@
 #import "NomalFrame.h"
 #import "AppPacketInfo.h"
 
+#import "StringUtils.h"
+
 #define mScreenWidth [[UIScreen mainScreen] bounds].size.width
 #define mScreenHeight [[UIScreen mainScreen] bounds].size.height
 
@@ -31,7 +33,7 @@
     self.imageFrame = CGRectMake(padding, itempadding, 60, 60);
     
     CGFloat nameLabelX = CGRectGetMaxX(self.imageFrame) + itempadding;
-    CGFloat contentW = mScreenWidth - nameLabelX - rightDownW;
+    CGFloat contentW = mScreenWidth - nameLabelX - rightDownW - 60;
     self.nameFrame = CGRectMake(nameLabelX, itempadding, contentW, lblNameViewH);
     
     CGFloat middleY = CGRectGetMaxY(self.nameFrame) + itempadding;
@@ -45,11 +47,15 @@
     
     self.cellHeight = CGRectGetMaxY(self.lineFrame);
     
-    CGFloat downY = (self.cellHeight - 30 - lblMiddleViewH) / 2;
-    self.downloadFrame = CGRectMake(mScreenWidth - rightDownW, downY, 30, 30);
+    CGFloat downY = (self.cellHeight - 45) / 2;
+    CGFloat downX = mScreenWidth - rightDownW;
+    self.downloadFrame = CGRectMake(downX, downY, 45, 45);
     
-    CGFloat downTextY = CGRectGetMaxY(self.downloadFrame) + 5;
-    self.downloadTextFrame = CGRectMake(mScreenWidth - rightDownW, downTextY, 30, lblMiddleViewH);
+    CGFloat discountX = CGRectGetMaxX(self.nameFrame) + 10;
+    self.discountFrame = CGRectMake(discountX, itempadding, 40, lblNameViewH);
+    
+//    CGFloat downTextY = CGRectGetMaxY(self.downloadFrame) + 5;
+//    self.downloadTextFrame = CGRectMake(mScreenWidth - rightDownW, downTextY, 30, lblMiddleViewH);
     
     
     

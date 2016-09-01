@@ -26,7 +26,7 @@
 #define TextFont GetFont(ContentTextSize)
 
 @interface DetailsInfoViewController (){
-    DetailSegmentView *detailSegmentView;
+//    DetailSegmentView *detailSegmentView;
     
     float segmentTopY;
     BOOL segmentIsShow;
@@ -79,8 +79,8 @@
     appSmallIcon.layer.cornerRadius = 15;
     appSmallIcon.layer.masksToBounds = YES;
     
-    detailSegmentView = [[DetailSegmentView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 39)];
-    detailSegmentView.delegate = self;
+//    detailSegmentView = [[DetailSegmentView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 39)];
+//    detailSegmentView.delegate = self;
     segmentView.delegate = self;
     
 }
@@ -192,7 +192,7 @@
     }
     
     CGFloat ivScrollY = CGRectGetMaxY(infoView.frame);
-    
+//    NSLog(@"%f", ivScrollY);
     descView = [[DetailDescribeView alloc] initWithFrame:CGRectMake(0, ivScrollY, kScreenWidth, 500) appInfo:info];
     [detailScrollView addSubview:descView];
     
@@ -202,9 +202,9 @@
 
 -(void) changeSegmentItem:(NSInteger)index{
 //    NSLog(@"changeSegmentItem:%ld", (long)index);
-    if(detailSegmentView){
-        [detailSegmentView setSelectSegement:index];
-    }
+//    if(detailSegmentView){
+//        [detailSegmentView setSelectSegement:index];
+//    }
     if(segmentView){
         [segmentView setSelectSegement:index];
     }
@@ -242,7 +242,7 @@
     [detailScrollView addSubview:commentView];
     [commentView requestAppComment];
     
-    CGFloat descConH = CGRectGetMaxY(commentView.frame);
+    descConH = CGRectGetMaxY(commentView.frame);
     detailScrollView.contentSize = CGSizeMake(kScreenWidth, descConH);
 }
 
@@ -252,19 +252,19 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     //    NSLog(@"%f", scrollView.contentOffset.y);
-    if(detailSegmentView){
-        if (scrollView.contentOffset.y <= segmentTopY && scrollView.contentOffset.y >= 0) {
-            if(segmentIsShow){
-                segmentIsShow = NO;
-                [detailSegmentView removeFromSuperview];
-            }
-        } else if (scrollView.contentOffset.y >= segmentTopY) {
-            if(!segmentIsShow){
-                segmentIsShow = YES;
-                [self.view addSubview:detailSegmentView];
-            }
-        }
-    }
+//    if(detailSegmentView){
+//        if (scrollView.contentOffset.y <= segmentTopY && scrollView.contentOffset.y >= 0) {
+//            if(segmentIsShow){
+//                segmentIsShow = NO;
+//                [detailSegmentView removeFromSuperview];
+//            }
+//        } else if (scrollView.contentOffset.y >= segmentTopY) {
+//            if(!segmentIsShow){
+//                segmentIsShow = YES;
+//                [self.view addSubview:detailSegmentView];
+//            }
+//        }
+//    }
 }
 
 /*
